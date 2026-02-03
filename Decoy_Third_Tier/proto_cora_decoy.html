@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cora — Pricing</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg-warm: #c8a45c;
+    --bg-warm-dark: #a8834a;
+    --card-bg: #ffffff;
+    --card-border: #e5e2dd;
+    --text-dark: #1a1a1a;
+    --text-body: #3a3a3a;
+    --text-muted: #777;
+    --text-dim: #999;
+    --cta-bg: #000;
+    --cta-text: #fff;
+    --radius: 12px;
+  }
+
+  body {
+    font-family: 'Switzer', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: var(--text-dark);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    /* Warm wheat field gradient fallback */
+    background: linear-gradient(170deg, #d4b06a 0%, #c49a52 30%, #b8894a 60%, #a07840 100%);
+    background-attachment: fixed;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    text-align: center;
+    padding: 80px 24px 28px;
+  }
+  .hero h1 {
+    font-family: 'Signifier', 'Georgia', 'Times New Roman', serif;
+    font-size: clamp(2.4rem, 5.5vw, 3.4rem);
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 8px;
+    color: var(--text-dark);
+  }
+
+  /* ── TOGGLE ── */
+  .toggle-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 24px 0 40px;
+    gap: 0;
+  }
+  .toggle {
+    display: inline-flex;
+    border-radius: 999px;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.15);
+  }
+  .toggle-btn {
+    padding: 10px 20px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    border: none;
+    background: transparent;
+    color: var(--text-body);
+    cursor: pointer;
+    transition: all 0.25s;
+    font-family: inherit;
+  }
+  .toggle-btn.active {
+    background: var(--text-dark);
+    color: #fff;
+  }
+  .toggle-btn:first-child { border-radius: 999px 0 0 999px; }
+  .toggle-btn:last-child { border-radius: 0 999px 999px 0; }
+
+  /* ── CARDS ── */
+  .cards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 0 24px;
+    max-width: 1040px;
+    margin: 0 auto;
+    align-items: stretch;
+  }
+  .card {
+    flex: 1;
+    max-width: 320px;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 32px 28px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  }
+
+  /* Most Popular badge */
+  .popular-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--text-dark);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 999px;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+
+  .card-name {
+    font-family: 'Signifier', 'Georgia', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text-dark);
+  }
+
+  .price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    margin-bottom: 4px;
+  }
+  .price-amount {
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--text-dark);
+  }
+  .price-period {
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    font-weight: 400;
+  }
+  .price-sub {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-bottom: 22px;
+    min-height: 18px;
+  }
+
+  .features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 28px;
+    flex: 1;
+  }
+  .features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.84rem;
+    color: var(--text-body);
+    line-height: 1.4;
+  }
+  .features li .check {
+    color: var(--text-body);
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .features li .plus-icon {
+    color: var(--text-body);
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-weight: 700;
+  }
+
+  .card-cta {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    border-radius: 9999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: box-shadow 0.2s, transform 0.15s;
+    background: var(--cta-bg);
+    color: var(--cta-text);
+    border: none;
+  }
+  .card-cta:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    transform: translateY(-1px);
+  }
+  .card-cta:active { transform: translateY(0); }
+
+  /* ── BUNDLE ── */
+  .bundle {
+    max-width: 1040px;
+    margin: 48px auto 0;
+    padding: 0 24px 80px;
+  }
+  .bundle-bar {
+    background: rgba(0,0,0,0.65);
+    backdrop-filter: blur(8px);
+    border-radius: var(--radius);
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .bundle-bar p {
+    color: rgba(255,255,255,0.85);
+    font-size: 0.82rem;
+    line-height: 1.6;
+    flex: 1;
+  }
+  .bundle-bar p a {
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .bundle-cta {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 9999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: #fff;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .bundle-cta:hover { background: rgba(255,255,255,0.2); }
+
+  /* ── PROTO BANNER ── */
+  .proto-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #117BC8;
+    color: #fff;
+    text-align: center;
+    padding: 8px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    z-index: 100;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 780px) {
+    .cards { flex-direction: column; align-items: center; }
+    .card { max-width: 100%; width: 100%; }
+    .card:nth-child(2) { order: -1; } /* Professional first on mobile */
+    .hero { padding: 56px 20px 20px; }
+    .bundle-bar { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<section class="hero">
+  <h1>Pick a plan</h1>
+</section>
+
+<!-- Toggle -->
+<div class="toggle-wrap">
+  <div class="toggle">
+    <button class="toggle-btn active" data-period="yearly" onclick="setPeriod('yearly')">Yearly (save 20%)</button>
+    <button class="toggle-btn" data-period="monthly" onclick="setPeriod('monthly')">Monthly</button>
+  </div>
+</div>
+
+<!-- Cards -->
+<div class="cards">
+  <!-- Starter (NEW) -->
+  <div class="card">
+    <div class="card-name">Starter</div>
+    <div class="price-row">
+      <span class="price-amount starter-price">$12</span>
+      <span class="price-period starter-period">/month</span>
+    </div>
+    <div class="price-sub starter-sub">Billed annually as $144</div>
+    <ul class="features">
+      <li><span class="check">✓</span> Includes 1 email account</li>
+      <li><span class="check">✓</span> AI inbox organization</li>
+      <li><span class="check">✓</span> Daily brief summaries</li>
+      <li><span class="check">✓</span> Self-serve help center</li>
+    </ul>
+    <a href="#" class="card-cta">Start free trial</a>
+  </div>
+
+  <!-- Professional (Most Popular) -->
+  <div class="card">
+    <div class="popular-badge">★ Most Popular</div>
+    <div class="card-name">Professional</div>
+    <div class="price-row">
+      <span class="price-amount pro-price">$20</span>
+      <span class="price-period pro-period">/month</span>
+    </div>
+    <div class="price-sub pro-sub">Billed annually as $240</div>
+    <ul class="features">
+      <li><span class="check">✓</span> Includes 2 email accounts</li>
+      <li><span class="check">✓</span> AI inbox organization</li>
+      <li><span class="check">✓</span> Pre-drafted responses</li>
+      <li><span class="check">✓</span> Daily brief summaries</li>
+      <li><span class="check">✓</span> Technical support</li>
+    </ul>
+    <a href="#" class="card-cta">Start free trial</a>
+  </div>
+
+  <!-- Unlimited -->
+  <div class="card">
+    <div class="card-name">Unlimited</div>
+    <div class="price-row">
+      <span class="price-amount unlimited-price">$39</span>
+      <span class="price-period unlimited-period">/month</span>
+    </div>
+    <div class="price-sub unlimited-sub">Billed annually as $470</div>
+    <ul class="features">
+      <li><span class="check">✓</span> Everything in Professional</li>
+      <li><span class="plus-icon">+</span> Includes unlimited email accounts</li>
+    </ul>
+    <a href="#" class="card-cta">Start free trial</a>
+  </div>
+</div>
+
+<!-- Bundle -->
+<section class="bundle">
+  <div class="bundle-bar">
+    <p>Or get the Every bundle for full access to all of our apps (<a href="#">Cora</a>, <a href="#">Spiral</a> and <a href="#">Sparkle</a>) and ideas at the frontier of AI for only <strong>$20 per month</strong>.</p>
+    <a href="#" class="bundle-cta">Subscribe to EV∈RY</a>
+  </div>
+</section>
+
+<div class="proto-banner">PROTOTYPE — Cora 3-Tier Decoy (Starter $12 → Professional $20 → Unlimited $39)</div>
+
+<script>
+  const btns = document.querySelectorAll('.toggle-btn');
+
+  const starterPrice = document.querySelector('.starter-price');
+  const starterPeriod = document.querySelector('.starter-period');
+  const starterSub = document.querySelector('.starter-sub');
+
+  const proPrice = document.querySelector('.pro-price');
+  const proPeriod = document.querySelector('.pro-period');
+  const proSub = document.querySelector('.pro-sub');
+
+  const unlimitedPrice = document.querySelector('.unlimited-price');
+  const unlimitedPeriod = document.querySelector('.unlimited-period');
+  const unlimitedSub = document.querySelector('.unlimited-sub');
+
+  function setPeriod(period) {
+    btns.forEach(b => b.classList.toggle('active', b.dataset.period === period));
+
+    if (period === 'yearly') {
+      starterPrice.textContent = '$12';
+      starterSub.textContent = 'Billed annually as $144';
+
+      proPrice.textContent = '$20';
+      proSub.textContent = 'Billed annually as $240';
+
+      unlimitedPrice.textContent = '$39';
+      unlimitedSub.textContent = 'Billed annually as $470';
+    } else {
+      starterPrice.textContent = '$15';
+      starterSub.textContent = '';
+
+      proPrice.textContent = '$25';
+      proSub.textContent = '';
+
+      unlimitedPrice.textContent = '$49';
+      unlimitedSub.textContent = '';
+    }
+  }
+</script>
+</body>
+</html>
